@@ -28,7 +28,7 @@ jobs:
     name: Build and Tests
     strategy:
       matrix:
-        os: [ ubuntu-20.04, ubuntu-22.04 ]
+        os: [ ubuntu-20.04 ]
     runs-on: ${{ matrix.os }}
     steps:
     - run: |
@@ -61,6 +61,11 @@ jobs:
     - name: Build and run release tests
       id: buildnormal
       run: ./meson.py test -C build.release
+
+    - name: test
+      if: ${{ always() }}
+      run: |
+        echo "XX ${{ steps.buildnormal.outcome }} XX"
 
     - name: Save error logs
       uses: actions/upload-artifact@v3
